@@ -23,6 +23,14 @@ public class UserEntity {
     @OneToMany(mappedBy = "author")
     private  List<PostEntity> posts;
 
+
+    @OneToMany(mappedBy = "user")
+    private List<CommentEntity> comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<LikeEntity> likes;
+    
+
     public Long getId() {
         return id;
     }
@@ -61,6 +69,30 @@ public class UserEntity {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public List<PostEntity> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostEntity> posts) {
+        this.posts = posts;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
+    public List<LikeEntity> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<LikeEntity> likes) {
+        this.likes = likes;
     }
 
     
