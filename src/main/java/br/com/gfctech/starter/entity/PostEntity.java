@@ -1,71 +1,58 @@
 package br.com.gfctech.starter.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Entity
+@Table(name= "posts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String content;
     
+    @Column(name = "created_at")
+    private LocalDateTime creatAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity author;
     
+    private List<String> media = new ArrayList<><String>();
+
+    private int likesCount;
+
+    private 
+
     @OneToMany(mappedBy = "post")
     private List<CommentEntity> comments;
 
     @OneToMany(mappedBy = "post")
     private List<LikeEntity> likes;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public UserEntity getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(UserEntity author) {
-        this.author = author;
-    }
-
-    public List<CommentEntity> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentEntity> comments) {
-        this.comments = comments;
-    }
-
-    public List<LikeEntity> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<LikeEntity> likes) {
-        this.likes = likes;
-    }
-
-    
 
 
 }

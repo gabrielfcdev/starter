@@ -57,9 +57,23 @@ public class UserEntity {
 
     @OneToMany(mappedBy="autor")
     private List<PostEntity> posts = new ArrayList<>();
-
-
+    
     private List<GroupEntity> groups = new ArrayList<>();
 
+
+    public void UpdateProfile(String newProfilePicture, String newBio)
+    {
+        this.profilePicture = newProfilePicture;
+        this.bio = newBio;
+    }
+
+    public void addFriend(UserEntity friend)
+    {
+        this.friends.add(friend);
+    }
+    public void removeFriend(UserEntity friend)
+    {
+        this.friends.remove(friend);
+    }
 
 }
