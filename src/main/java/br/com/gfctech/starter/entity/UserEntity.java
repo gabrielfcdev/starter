@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -55,25 +59,41 @@ public class UserEntity {
 
     private String status;
 
-    @OneToMany(mappedBy="autor")
+    // Um usuário pode ter muitos posts
+    @OneToMany(mappedBy="author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
-    
+
+    // Relacionamento muitos para muitos entre usuários e grupos
+    @ManyToMany
+    @JoinTable(
+        name = "user_groups",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
     private List<GroupEntity> groups = new ArrayList<>();
 
+    // Relacionamento muitos para muitos entre amigos
+    @ManyToMany
+    @JoinTable(
+        name = "user_friends",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<UserEntity> friends = new ArrayList<>();
 
-    public void UpdateProfile(String newProfilePicture, String newBio)
-    {
+    // Atualizar perfil do usuário
+    public void updateProfile(String newProfilePicture, String newBio) {
         this.profilePicture = newProfilePicture;
         this.bio = newBio;
     }
 
-    public void addFriend(UserEntity friend)
-    {
+    // Adicionar um amigo
+    public void addFriend(UserEntity friend) {
         this.friends.add(friend);
     }
-    public void removeFriend(UserEntity friend)
-    {
+
+    // Remover um amigo
+    public void removeFriend(UserEntity friend) {
         this.friends.remove(friend);
     }
-
 }
