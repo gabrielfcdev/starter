@@ -39,7 +39,7 @@ public class UserService {
         PostEntity post = postRepository.findById(postId)
          .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        post.addComment(user, comment);
+        post.addComment(comment);(user, comment);
         postRepository.save(post);
     }
 
