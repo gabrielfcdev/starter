@@ -1,0 +1,11 @@
+{
+    "username": "novo_usuario",
+    "password": "senha123",
+    "email": "novo_usuario@example.com",
+    "dateBirth": "2000-01-01",
+    "profilePicture": "https://example.com/profile.jpg",
+    "bio": "Este é um novo usuário.",
+    "dateJoined": "2024-09-27T16:00:00",
+    "lastLogin": null,
+    "status": "Ativo"
+}

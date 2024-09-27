@@ -54,7 +54,7 @@ public class UserController {
 
     // Métodos auxiliares para conversão entre UserEntity e UserDTO
     private UserDTO convertToDTO(UserEntity user) {
-        return new UserDTO(user.getId(), user.getUsername(), user.getEmail(),
+        return new UserDTO(user.getId(), user.getUsername(), user.getEmail(),user.getPassword(),
                            user.getDateBirth(), user.getProfilePicture(),
                            user.getBio(), user.getDateJoined(), user.getLastLogin(),
                            user.getStatus());
@@ -71,6 +71,8 @@ public class UserController {
         userEntity.setDateJoined(userDTO.getDateJoined());
         userEntity.setLastLogin(userDTO.getLastLogin());
         userEntity.setStatus(userDTO.getStatus());
+        userEntity.setPassword(userDTO.getPassword()); // Adicione esta linha
+
         return userEntity;
     }
     
