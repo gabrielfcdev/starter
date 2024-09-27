@@ -96,4 +96,6 @@ public class UserEntity {
     public void removeFriend(UserEntity friend) {
         this.friends.remove(friend);
     }
+    
+
 }

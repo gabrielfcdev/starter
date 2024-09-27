@@ -2,18 +2,27 @@ package br.com.gfctech.starter.dto;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class GroupDTO {
-    private Long id; // ID do grupo
-    private String name; // Nome do grupo
-    private String status; // Status do grupo
-    private UserDTO user; // Objeto UserDTO em vez de Long userId
-    private LocalDateTime createdAt; // Data de criação
-    private LocalDateTime updatedAt; // Data de atualização
+    private Long id;
+    private String name;
+    private String status;
+    private UserDTO user; // Ou outros campos necessários
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+
+    public GroupDTO(Long id, String name, String status, UserDTO user, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.user = user;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
+
+    // outros métodos (getters, setters, etc.)
 }
