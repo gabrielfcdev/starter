@@ -38,6 +38,13 @@ public class UserController {
         return ResponseEntity.ok(convertToDTO(newUser));
     }
 
+    // Atualizar perfil do usuário
+    @PutMapping("/{id}/profile")
+    public ResponseEntity<UserDTO> updateProfile(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        UserEntity updatedUser = userService.updateProfile(id, userDTO.getProfilePicture(), userDTO.getBio());
+        return ResponseEntity.ok(convertToDTO(updatedUser));
+    }
+
     // Métodos auxiliares para conversão entre UserEntity e UserDTO
     private UserDTO convertToDTO(UserEntity user) {
         return new UserDTO(user.getId(), user.getUsername(), user.getEmail(),

@@ -20,8 +20,7 @@ public class LikeEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name= "post_id")
@@ -30,7 +29,4 @@ public class LikeEntity {
     @ManyToOne
     @JoinColumn(name= "user_id")
     private UserEntity user;
-
-    
-    
 }

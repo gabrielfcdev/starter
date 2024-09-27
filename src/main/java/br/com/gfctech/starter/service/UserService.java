@@ -1,11 +1,11 @@
 package br.com.gfctech.starter.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gfctech.starter.entity.PostEntity;
 import br.com.gfctech.starter.entity.UserEntity;
-import br.com.gfctech.starter.repository.PostRepository;
 import br.com.gfctech.starter.repository.UserRepository;
 
 @Service
@@ -14,45 +14,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PostRepository postRepository;
-
-    public void createPost(long userId, String content)
-
-    {
-        UserEntity user = userRepository.findById(userId)
-         .orElseThrow(() -> new RuntimeException("User not found"));
-
-         PostEntity newPost = new PostEntity();
-         newPost.setAuthor(user);
-         newPost.setContent(content);
-         postRepository.save(newPost);
-
-
+    // Método para buscar todos os usuários
+    public List<UserEntity> findAllUsers() {
+        return userRepository.findAll();
     }
 
-    public void commentOnPost(Long userId, Long postId, String comment)
-    {
-        UserEntity user = userRepository.findById(userId)
-         .orElseThrow(() -> new RuntimeException("User not found"));
-
-        PostEntity post = postRepository.findById(postId)
-         .orElseThrow(() -> new RuntimeException("Post not found"));
-
-        post.addComment(user, comment);
-        postRepository.save(post);
+    // Método para buscar usuário por ID
+    public UserEntity findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public void likePost(Long userId, Long postId)
-    {
-        UserEntity user = userRepository.findById(userId)
-         .orElseThrow(() -> new RuntimeException("User not found"));
-
-        PostEntity post = postRepository.findById(postId)
-         .orElseThrow(() -> new RuntimeException("Post not found"));
-
-        post.addLike(user);
-        postRepository.save(post);
+    // Método para criar um novo usuário
+    public UserEntity createUser(UserEntity user) {
+        // Aqui você pode adicionar lógica para validar ou processar o usuário antes de salvar
+        return userRepository.save(user);
     }
 
+    // Método para atualizar o perfil do usuário
+    public UserEntity updateProfile(Long id, String newProfilePicture, String newBio) {
+        UserEntity user = findUserById(id);
+        user.updateProfile(newProfilePicture, newBio);
+        return userRepository.save(user);
+    }
 }

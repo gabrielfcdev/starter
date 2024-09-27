@@ -1,6 +1,5 @@
 package br.com.gfctech.starter.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.gfctech.starter.dto.CommentDTO;
 import br.com.gfctech.starter.dto.LikeDTO;
-import br.com.gfctech.starter.entity.CommentEntity;
 import br.com.gfctech.starter.entity.LikeEntity;
 import br.com.gfctech.starter.entity.PostEntity;
 import br.com.gfctech.starter.entity.UserEntity;
-import br.com.gfctech.starter.repository.CommentRepository;
 import br.com.gfctech.starter.repository.LikeRepository;
 import br.com.gfctech.starter.repository.PostRepository;
 import br.com.gfctech.starter.repository.UserRepository;
@@ -23,7 +19,7 @@ import br.com.gfctech.starter.repository.UserRepository;
 public class LikeService {
 
     @Autowired
-    private CommentRepository commentRepository;
+    private LikeRepository likeRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -31,9 +27,9 @@ public class LikeService {
     @Autowired
     private PostRepository postRepository;
 
-    // Criar comentário
+    // Adicionar like
     @Transactional
-    public LikeDTO createLike(Long userId, Long postId, String content) {
+    public LikeDTO addLike(Long userId, Long postId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
@@ -41,11 +37,11 @@ public class LikeService {
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
         LikeEntity like = new LikeEntity();
-        like.setAuthor(user);
+        like.setUser(user);
         like.setPost(post);
         likeRepository.save(like);
 
-        return new LikeDTO(like.getId(), like.getContent(), user.getId(), post.getId());
+        return new LikeDTO(like.getId(), user.getId(), post.getId());
     }
 
     // Buscar likes de um post
@@ -53,21 +49,20 @@ public class LikeService {
         return likeRepository.findAll()
                 .stream()
                 .filter(like -> like.getPost().getId().equals(postId))
-                .map(like -> new LikeDTO(like.getId(), like.getContent(), like.getAuthor().getId(), like.getPost().getId(), like.getCreatedAt(), like.getUpdatedAt()))
+                .map(like -> new LikeDTO(like.getId(), like.getUser().getId(), like.getPost().getId()))
                 .collect(Collectors.toList());
     }
 
-
-    // Deletar comentário
+    // Deletar like
     @Transactional
-    public void deleteLike(Long likeId, Long userId) {
+    public void removeLike(Long likeId, Long userId) {
         LikeEntity like = likeRepository.findById(likeId)
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
+                .orElseThrow(() -> new RuntimeException("Like not found"));
 
-        if (!like.getAuthor().getId().equals(userId)) {
-            throw new RuntimeException("User is not the author of this comment");
+        if (!like.getUser().getId().equals(userId)) {
+            throw new RuntimeException("User is not the author of this like");
         }
 
-        commentRepository.delete(like);
+        likeRepository.delete(like);
     }
 }

@@ -5,7 +5,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gfctech.starter.dto.MessageDTO;
 import br.com.gfctech.starter.service.MessageService;
@@ -27,8 +34,13 @@ public class MessageController {
             @RequestParam Long senderId, 
             @RequestParam Long receiverId, 
             @RequestParam String content) {
+        
+        if (content == null || content.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();  // Validação de conteúdo
+        }
+
         messageService.sendMessage(senderId, receiverId, content);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();  // Alterado para 201 Created
     }
 
     // Obter mensagens de um usuário (Inbox)
@@ -41,8 +53,8 @@ public class MessageController {
                 message.getSender().getId(), 
                 message.getReceiver().getId(), 
                 message.getContent(), 
-                message.getTimestamp(), 
-                message.isRead()))
+                message.getCreatedAt(),  // Ajuste de timestamp para createdAt
+                message.getIsRead()))   // Ajuste para o getter correto
             .collect(Collectors.toList());
         return ResponseEntity.ok(messages);
     }
@@ -58,6 +70,6 @@ public class MessageController {
     @DeleteMapping("/delete/{messageId}")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId) {
         messageService.deleteMessage(messageId);
-        return ResponseEntity.noContent().build();  // Utilizando 204 No Content
+        return ResponseEntity.noContent().build();  // 204 No Content
     }
 }

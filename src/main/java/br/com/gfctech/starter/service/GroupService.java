@@ -9,15 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gfctech.starter.dto.GroupDTO;
-import br.com.gfctech.starter.dto.GroupDTO;
-import br.com.gfctech.starter.entity.CommentEntity;
+import br.com.gfctech.starter.dto.UserDTO;
 import br.com.gfctech.starter.entity.GroupEntity;
-import br.com.gfctech.starter.entity.PostEntity;
 import br.com.gfctech.starter.entity.UserEntity;
-import br.com.gfctech.starter.repository.CommentRepository;
-import br.com.gfctech.starter.repository.FriendshipRepository;
 import br.com.gfctech.starter.repository.GroupRepository;
-import br.com.gfctech.starter.repository.PostRepository;
 import br.com.gfctech.starter.repository.UserRepository;
 
 @Service
@@ -29,42 +24,57 @@ public class GroupService {
     @Autowired
     private UserRepository userRepository;
 
-    // entrar no grupo
-    @Transactional
-    public GroupDTO enterGroup(Long userId, Long groupId) {
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        
+    // Entrar no grupo
+@Transactional
+public GroupDTO enterGroup(Long userId, Long groupId) {
+    UserEntity user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    GroupEntity group = groupRepository.findById(groupId)
+            .orElseThrow(() -> new RuntimeException("Group not found"));
+
+    group.addUser(user);
+    groupRepository.save(group);
+
+    UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail()); // Supondo que UserEntity tenha métodos para obter nome e email
+    return new GroupDTO(group.getId(), group.getName(), group.getStatus(), userDTO, LocalDateTime.now(), LocalDateTime.now());
+}
+
+
+
+    // Buscar grupo por ID
+    public GroupDTO getGroupById(Long groupId) {
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
-
-        group.addUser(user);
-        groupRepository.save(group);
+    
+        // Retorna o GroupDTO com o status e o ID do grupo
+        return new GroupDTO(group.getId(), group.getName(), group.getStatus(), null, LocalDateTime.now(), LocalDateTime.now());
     }
+    
 
-    // Buscar usuarios do grupo
-    public List<GroupDTO> getUsersByGroup(Long groupId) {
-        GroupEntity group = groupRepository.findById(groupId)
-        .orElseThrow(() -> new RuntimeException( "Group not found"));
+    // Buscar usuários do grupo
+public List<GroupDTO> getUsersByGroup(Long groupId) {
+    GroupEntity group = groupRepository.findById(groupId)
+            .orElseThrow(() -> new RuntimeException("Group not found"));
 
-        return group.getUsers()
-                .stream()
-               .map(user -> new GroupDTO(group.getId(), group.getName(), user.getId(), LocalDateTime.now()))
-               .collect(Collectors.toList());
-    }
-   
+    // Supondo que group.getUsers() retorna uma lista de UserEntity
+    return group.getUsers() // Supondo que isso retorna uma lista de usuários
+            .stream()
+            .map(user -> new GroupDTO(group.getId(), group.getName(), user.getId(), LocalDateTime.now())) // Ajuste conforme a necessidade
+            .collect(Collectors.toList());
+}
 
-    // sair do grupo
+
+    // Sair do grupo
     @Transactional
     public void removeGroup(Long groupId, Long userId) {
         GroupEntity group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
 
         UserEntity user = userRepository.findById(userId)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-
-        groupRepository.removeUser(user);
+        group.getUsers().remove(user); // Removendo o usuário do grupo
         groupRepository.save(group);
     }
 }
