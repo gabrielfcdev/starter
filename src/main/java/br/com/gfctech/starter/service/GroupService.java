@@ -1,6 +1,7 @@
 package br.com.gfctech.starter.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,16 @@ public class GroupService {
         // Retorna o GroupDTO com o status e o ID do grupo
         return new GroupDTO(group.getId(), group.getName(), group.getStatus(), null, LocalDateTime.now(), LocalDateTime.now());
     }
+        public GroupDTO getUsersById(Long groupId) {
+                GroupEntity group = groupRepository.findById(groupId)
+                        .orElseThrow(() -> new RuntimeException("Group not found"));
+        
+                List<UserEntity> users = userRepository.findByGroupId(groupId);
+        
+                return new GroupDTO(group.getId(), group.getName(), group.getStatus(), users, LocalDateTime.now(), LocalDateTime.now());
+        }
     
+
 
 
     // Sair do grupo

@@ -1,14 +1,21 @@
 package br.com.gfctech.starter.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.gfctech.starter.dto.UserDTO;
 import br.com.gfctech.starter.entity.UserEntity;
 import br.com.gfctech.starter.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -54,9 +61,17 @@ public class UserController {
     }
 
     private UserEntity convertToEntity(UserDTO userDTO) {
-        return new UserEntity(userDTO.getId(), userDTO.getUsername(), null, userDTO.getEmail(),
-                              userDTO.getDateBirth(), userDTO.getProfilePicture(),
-                              userDTO.getBio(), userDTO.getDateJoined(), userDTO.getLastLogin(),
-                              userDTO.getStatus(), null, null);
+        UserEntity userEntity = new UserEntity(); // Construtor padrão
+        userEntity.setId(userDTO.getId());
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setEmail(userDTO.getEmail());
+        userEntity.setDateBirth(userDTO.getDateBirth());
+        userEntity.setProfilePicture(userDTO.getProfilePicture());
+        userEntity.setBio(userDTO.getBio());
+        userEntity.setDateJoined(userDTO.getDateJoined());
+        userEntity.setLastLogin(userDTO.getLastLogin());
+        userEntity.setStatus(userDTO.getStatus());
+        return userEntity;
     }
+    
 }

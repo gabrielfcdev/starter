@@ -5,9 +5,10 @@ import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
     private Long id;
@@ -20,11 +21,8 @@ public class UserDTO {
     private LocalDateTime lastLogin;
     private String status;
 
-    public UserDTO(String email, Long id, String username) {
-        this.email = email;
-        this.id = id;
-        this.username = username;
-    }
+    
+
 
 
     
