@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.ok(convertToDTO(user));
     }
 
-    @PostMapping
+    @PostMapping("/newuser")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserEntity newUser = userService.createUser(convertToEntity(userDTO));
         return ResponseEntity.ok(convertToDTO(newUser));

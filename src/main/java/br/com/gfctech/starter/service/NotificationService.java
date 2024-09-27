@@ -18,13 +18,14 @@ public class NotificationService {
 
     // Buscar notificações de um usuário
     public List<NotificationEntity> getNotificationsForUser(UserEntity user) {
-        return notificationRepository.findByUserOrderByCreatedAtDesc(user);
+        return notificationRepository.findByReceiverOrderByCreatedAtDesc(user);
     }
 
     // Marcar uma notificação como lida
     @Transactional
     public void markNotificationAsRead(Long notificationId) {
-        NotificationEntity notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notificação não encontrada"));
+        NotificationEntity notification = notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new IllegalArgumentException("Notificação não encontrada"));
         notification.setIsRead(true);
         notificationRepository.save(notification);
     }
@@ -37,7 +38,14 @@ public class NotificationService {
 
     // Retornar a URL da notificação para redirecionar o usuário
     public String getNotificationUrl(Long notificationId) {
-        NotificationEntity notification = notificationRepository.findById(notificationId).orElseThrow(() -> new IllegalArgumentException("Notificação não encontrada"));
-        return "/posts/" + notification.getRelatedPost().getId(); // Exemplo: URL para redirecionar ao post relacionado
+        NotificationEntity notification = notificationRepository.findById(notificationId)
+            .orElseThrow(() -> new IllegalArgumentException("Notificação não encontrada"));
+        
+        // Verificar se o post relacionado não é nulo antes de acessar o ID
+        if (notification.getRelatedPost() != null) {
+            return "/posts/" + notification.getRelatedPost().getId(); // URL para redirecionar ao post relacionado
+        } else {
+            return "/notifications"; // Redirecionar para uma página padrão se não houver post relacionado
+        }
     }
 }

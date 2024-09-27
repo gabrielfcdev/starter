@@ -72,6 +72,7 @@ public class UserEntity {
     )
     private List<GroupEntity> groups = new ArrayList<>();
 
+    
     // Relacionamento muitos para muitos entre amigos
     @ManyToMany
     @JoinTable(

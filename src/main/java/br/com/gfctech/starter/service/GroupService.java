@@ -60,4 +60,5 @@ public class GroupService {
         group.getUsers().remove(user); // Removendo o usuário do grupo
         groupRepository.save(group);
     }
+    
 }

@@ -27,6 +27,9 @@ public class UserService {
 
     // Método para criar um novo usuário
     public UserEntity createUser(UserEntity user) {
+        if (user.getPassword() == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
         // Aqui você pode adicionar lógica para validar ou processar o usuário antes de salvar
         return userRepository.save(user);
     }
