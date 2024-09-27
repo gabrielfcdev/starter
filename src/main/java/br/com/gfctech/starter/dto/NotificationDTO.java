@@ -12,18 +12,11 @@ import lombok.NoArgsConstructor;
 public class NotificationDTO {
 
     private Long id;
-
     private String type;
-
     private String content; 
-
     private LocalDateTime createdAt;
-
     private Boolean isRead;
-
     private LocalDateTime timestamp;
-
     private String url;
 
-    
 }

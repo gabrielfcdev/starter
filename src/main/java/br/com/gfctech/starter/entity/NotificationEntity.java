@@ -23,10 +23,10 @@ public class NotificationEntity {
     private String type;
 
     @ManyToOne
-    private UserEntity sender; // Mudei para 'sender', para indicar quem enviou a notificação
+    private UserEntity sender; // Enviador da notificação
 
     @ManyToOne
-    private UserEntity receiver; // Mudei para 'receiver', para indicar quem recebe a notificação
+    private UserEntity receiver; // Recebedor da notificação
 
     @ManyToOne
     private PostEntity relatedPost;
@@ -34,20 +34,19 @@ public class NotificationEntity {
     @ManyToOne
     private UserEntity relatedUser;
 
-    @Column(nullable = false) // Adiciona a anotação para não permitir nulos
-    private String content; // Adicionando o campo content
+    @Column(nullable = false) // Não permite nulos
+    private String content; // Conteúdo da notificação
 
-    @ManyToOne
-    private LocalDateTime createdAt;
+    @Column(nullable = false) // Não permite nulos
+    private LocalDateTime createdAt; // Data de criação da notificação
 
-    @ManyToOne
-    private Boolean isRead;
+    @Column(nullable = false) // Não permite nulos
+    private Boolean isRead; // Indica se a notificação foi lida
 
-    @ManyToOne
-    private LocalDateTime timestamp;
+    @Column(nullable = false) // Não permite nulos
+    private LocalDateTime timestamp; // Timestamp da notificação
 
-    @Column(nullable = false) // Adiciona a anotação para não permitir nulos
-    private String url;
+    @Column(nullable = false) // Não permite nulos
+    private String url; // URL para redirecionamento
 
-    
 }

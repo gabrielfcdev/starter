@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gfctech.starter.dto.NotificationDTO;
 import br.com.gfctech.starter.entity.UserEntity;
+import br.com.gfctech.starter.repository.UserRepository;
 import br.com.gfctech.starter.service.NotificationService;
 
 @RestController
@@ -23,22 +24,33 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private UserRepository userRepository; // Injetando o repositório de usuários
+
+
     // Acessar as notificações do usuário
     @GetMapping("/inbox/{userId}")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsForUser(@PathVariable UserEntity user) {
-        List<NotificationDTO> notifications = notificationService.getNotificationsForUser(user)
-            .stream()
-            .map(notification -> new NotificationDTO(
-                notification.getId(), 
-                notification.getSender().getId(), 
-                notification.getReceiver().getId(), 
-                notification.getContent(),
-                notification.getTimestamp(),
-                notification.getIsRead(),
-                notification.getUrl())) // Adiciona a URL da notificação para redirecionamento
-            .collect(Collectors.toList());
-        return ResponseEntity.ok(notifications);
-    }
+public ResponseEntity<List<NotificationDTO>> getNotificationsForUser(@PathVariable Long userId) {
+    // Busque o UserEntity usando o ID
+    UserEntity user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User not found")); // Lidar com o caso de usuário não encontrado
+
+    List<NotificationDTO> notifications = notificationService.getNotificationsForUser(user)
+        .stream()
+        .map(notification -> new NotificationDTO(
+            notification.getId(), 
+            notification.getType(),
+            notification.getContent(),
+            notification.getCreatedAt(),
+            notification.getIsRead(),
+            notification.getTimestamp(),
+            notification.getUrl()))
+        .collect(Collectors.toList());
+
+    return ResponseEntity.ok(notifications);
+}
+
+
 
     // Marcar notificação como visualizada
     @PutMapping("/read/{notificationId}")
