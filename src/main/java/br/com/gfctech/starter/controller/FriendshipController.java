@@ -14,37 +14,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gfctech.starter.dto.CommentDTO;
 import br.com.gfctech.starter.dto.FriendshipDTO;
-import br.com.gfctech.starter.repository.FriendshipRepository;
+import br.com.gfctech.starter.entity.FriendshipEntity;
 import br.com.gfctech.starter.service.FriendshipService;
 
-
 @RestController
-@RequestMapping("/api/friends")
+@RequestMapping("/friendship")
 public class FriendshipController {
 
     @Autowired
     private FriendshipService friendshipService;
 
-    // Adicionar amigo
-    @PostMapping("/add")
-    public ResponseEntity<FriendshipDTO> addFriend(@RequestParam Long userId, @RequestParam Long friendshipId) {
-        FriendshipDTO createdComment = friendshipService.addFriend(userId, friendshipId);
-        return ResponseEntity.ok(addFriend);
+    @PostMapping
+    public ResponseEntity<FriendshipDTO> createFriendship(@RequestBody FriendshipDTO friendshipDTO) {
+        FriendshipDTO createdFriendship = friendshipService.createFriendship(friendshipDTO);
+        return ResponseEntity.ok(createdFriendship);
     }
 
-    // Buscar amigos
-    @GetMapping("/friends/{friendshipId}")
-    public ResponseEntity<List<FriendshipDTO>> getCommentsByPost(@PathVariable Long friendshipId) {
-        List<FriendshipDTO> friends = friendshipService.getfriendships(friendshipId);
-        return ResponseEntity.ok(friends);
+    @GetMapping
+    public List<FriendshipEntity> getAllFriendships() {
+        return friendshipService.getAllFriendships();
     }
 
-    // Deletar amizade
-    @DeleteMapping("/delete/{commentId}")
-    public ResponseEntity<Void> deleteFriend(@PathVariable Long friendshipId, @RequestParam Long userId) {
-        friendshipService.deleteFriend(friendshipId, userId);
+    @GetMapping("/{id}")
+    public ResponseEntity<FriendshipEntity> getFriendshipById(@PathVariable Long id) {
+        return friendshipService.getFriendshipById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/action")
+    public ResponseEntity<FriendshipDTO> updateFriendshipStatus(@PathVariable Long id, @RequestParam String action) {
+        FriendshipDTO updatedFriendship = friendshipService.updateFriendshipStatus(id, action);
+        return ResponseEntity.ok(updatedFriendship);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFriendship(@PathVariable Long id) {
+        friendshipService.deleteFriendship(id);
         return ResponseEntity.noContent().build();
     }
 }

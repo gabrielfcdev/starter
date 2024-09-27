@@ -1,5 +1,8 @@
 package br.com.gfctech.starter.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class MediaRepository {
-    
+import br.com.gfctech.starter.entity.MediaEntity;
+@Repository
+public interface MediaRepository extends JpaRepository<MediaEntity, Long> {
 }

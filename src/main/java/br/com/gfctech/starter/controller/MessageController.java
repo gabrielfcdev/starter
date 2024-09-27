@@ -5,14 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.gfctech.starter.dto.MessageDTO;
 import br.com.gfctech.starter.service.MessageService;
@@ -21,12 +14,19 @@ import br.com.gfctech.starter.service.MessageService;
 @RequestMapping("/api/messages")
 public class MessageController {
 
+    private final MessageService messageService;
+
     @Autowired
-    private MessageService messageService;
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     // Enviar mensagem
     @PostMapping("/send")
-    public ResponseEntity<Void> sendMessage(@RequestParam Long senderId, @RequestParam Long receiverId, @RequestParam String content) {
+    public ResponseEntity<Void> sendMessage(
+            @RequestParam Long senderId, 
+            @RequestParam Long receiverId, 
+            @RequestParam String content) {
         messageService.sendMessage(senderId, receiverId, content);
         return ResponseEntity.ok().build();
     }
@@ -58,6 +58,6 @@ public class MessageController {
     @DeleteMapping("/delete/{messageId}")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId) {
         messageService.deleteMessage(messageId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();  // Utilizando 204 No Content
     }
 }

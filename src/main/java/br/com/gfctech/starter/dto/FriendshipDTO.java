@@ -10,8 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FriendshipDTO {
+
     private Long id;
+    private Long user1Id;
+    private Long user2Id;
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Construtores, Getters e Setters
 }
