@@ -15,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -51,19 +53,18 @@ public class UserEntity {
     
     private String bio;
 
-    @Column(name="date_joined", nullable = false)
+    @Column(name="date_joined", nullable = false, updatable = false)
     private LocalDateTime dateJoined;
+
 
     @Column(name="last_login")
     private LocalDateTime  lastLogin;
 
     private String status;
 
-    // Um usuário pode ter muitos posts
     @OneToMany(mappedBy="author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
-    // Relacionamento muitos para muitos entre usuários e grupos
     @ManyToMany
     @JoinTable(
         name = "user_groups",
@@ -73,7 +74,6 @@ public class UserEntity {
     private List<GroupEntity> groups = new ArrayList<>();
 
     
-    // Relacionamento muitos para muitos entre amigos
     @ManyToMany
     @JoinTable(
         name = "user_friends",
@@ -82,18 +82,28 @@ public class UserEntity {
     )
     private List<UserEntity> friends = new ArrayList<>();
 
-    // Atualizar perfil do usuário
     public void updateProfile(String newProfilePicture, String newBio) {
         this.profilePicture = newProfilePicture;
         this.bio = newBio;
     }
 
-    // Adicionar um amigo
+    @PrePersist
+    protected void onCreate(){
+        this.dateJoined = LocalDateTime.now();
+        this.lastLogin = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.lastLogin = LocalDateTime.now();
+    }
+
+
+
     public void addFriend(UserEntity friend) {
         this.friends.add(friend);
     }
 
-    // Remover um amigo
     public void removeFriend(UserEntity friend) {
         this.friends.remove(friend);
     }

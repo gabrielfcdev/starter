@@ -18,7 +18,6 @@ public class FriendshipService {
 
     public FriendshipDTO createFriendship(FriendshipDTO friendshipDTO) {
         FriendshipEntity friendship = new FriendshipEntity();
-        // Aqui, busque os usuários pelos IDs e configure
         //friendship.setUser1(userRepository.findById(friendshipDTO.getUser1Id()).orElseThrow());
         //friendship.setUser2(userRepository.findById(friendshipDTO.getUser2Id()).orElseThrow());
 
