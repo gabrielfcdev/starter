@@ -56,42 +56,49 @@ O **Starter Social Network** é uma plataforma de rede social com o objetivo de,
 Configure o banco de dados MySQL:
 
 Crie um novo banco de dados:
-
+```markdown
 CREATE DATABASE starter;
-
+```
 Atualize as credenciais do banco de dados no arquivo application.properties:
 properties
-
+```markdown
 spring.datasource.url=jdbc:mysql://localhost:3306/starter
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
+```
 Compile o projeto:
-
+```markdown
 mvn clean install
+```
 Execute a aplicação:
-
+```markdown
 mvn spring-boot:run
+```
 Acesse a aplicação no navegador:
-
+```markdown
 http://localhost:8080
-Contribuição
+```
+
 Contribuições são bem-vindas! Para contribuir:
 
-Faça um fork do repositório.
+###Faça um fork do repositório.
 Crie uma branch para sua feature:
-
+```markdown
 git checkout -b minha-feature
+```
 Commit suas mudanças:
-
+```markdown
 git commit -m "Adicionei nova funcionalidade"
+```
 Envie a branch:
-
+```markdown
 git push origin minha-feature
+```
 Abra um Pull Request.
-Licença
+###Licença
 Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
 
-Contato
+###Contato
 Email: contato@gfctech.com.br
 LinkedIn: Gabriel Calixto
 Desenvolvido por Gabriel Calixto.
