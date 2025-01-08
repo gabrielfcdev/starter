@@ -73,7 +73,6 @@ mvn clean install
 Execute a aplicação:
 
 bash
-Copiar código
 mvn spring-boot:run
 Acesse a aplicação no navegador:
 
