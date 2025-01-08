@@ -1,7 +1,6 @@
 # Starter Social Network
 
-**Descrição:**  
-O **Starter Social Network** é uma plataforma de rede social com o objetivo de, no futuro, se tornar uma rede de relacionamentos robusta. O projeto permite que os usuários se conectem, compartilhem informações e interajam em um ambiente seguro e amigável. Atualmente, a aplicação oferece funcionalidades como criação de posts, comentários, curtidas, envio de mensagens e adição de amigos.
+**Starter Social Network** é uma plataforma de rede social com o objetivo de, no futuro, se tornar uma rede de relacionamentos robusta. O projeto permite que os usuários se conectem, compartilhem informações e interajam em um ambiente seguro e amigável. Atualmente, a aplicação oferece funcionalidades como criação de posts, comentários, curtidas, envio de mensagens e adição de amigos.
 
 
 ## Índice
