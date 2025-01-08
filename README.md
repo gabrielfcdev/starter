@@ -53,28 +53,28 @@ O **Starter Social Network** é uma plataforma de rede social com o objetivo de,
    ```bash
    git clone https://github.com/seu-usuario/starter.git
    cd starter-social-network
-Configure o banco de dados MySQL:
+2. Configure o banco de dados MySQL:
 
-Crie um novo banco de dados:
+ - Crie um novo banco de dados:
 ```markdown
 CREATE DATABASE starter;
 ```
-Atualize as credenciais do banco de dados no arquivo application.properties:
+- Atualize as credenciais do banco de dados no arquivo application.properties:
 properties
 ```markdown
 spring.datasource.url=jdbc:mysql://localhost:3306/starter
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 ```
-Compile o projeto:
+3. Compile o projeto:
 ```markdown
 mvn clean install
 ```
-Execute a aplicação:
+4. Execute a aplicação:
 ```markdown
 mvn spring-boot:run
 ```
-Acesse a aplicação no navegador:
+5. Acesse a aplicação no navegador:
 ```markdown
 http://localhost:8080
 ```
@@ -95,10 +95,10 @@ Envie a branch:
 git push origin minha-feature
 ```
 Abra um Pull Request.
-###Licença
+### Licença
 Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
 
-###Contato
+### Contato
 Email: contato@gfctech.com.br
 LinkedIn: Gabriel Calixto
 Desenvolvido por Gabriel Calixto.
