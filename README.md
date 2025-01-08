@@ -50,50 +50,57 @@ O **Starter Social Network** é uma plataforma de rede social com o objetivo de,
 ### Passos
 
 1. Clone o repositório:  
-   ```bash
+
+    ```bash
    git clone https://github.com/seu-usuario/starter.git
    cd starter-social-network
-2. Configure o banco de dados MySQL:
+3. Configure o banco de dados MySQL:   
+    
+    - Crie um novo banco de dados:
 
- - Crie um novo banco de dados:
-```markdown
-CREATE DATABASE starter;
-```
-- Atualize as credenciais do banco de dados no arquivo application.properties:
-properties
-```markdown
-spring.datasource.url=jdbc:mysql://localhost:3306/starter
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-```
-3. Compile o projeto:
-```markdown
-mvn clean install
-```
-4. Execute a aplicação:
-```markdown
-mvn spring-boot:run
-```
-5. Acesse a aplicação no navegador:
-```markdown
-http://localhost:8080
-```
+    ```markdown
+   CREATE DATABASE starter;
+   ```
 
-Contribuições são bem-vindas! Para contribuir:
+    - Atualize as credenciais do banco de dados no arquivo application.properties:
+   properties
 
-###Faça um fork do repositório.
+    ```markdown
+   spring.datasource.url=jdbc:mysql://localhost:3306/starter
+   spring.datasource.username=seu_usuario
+   spring.datasource.password=sua_senha
+   ```
+5. Compile o projeto:  
+
+   ```markdown
+   mvn clean install
+   ```
+6. Execute a aplicação:
+
+    ```markdown
+   mvn spring-boot:run
+   ```
+7. Acesse a aplicação no navegador:
+   ```markdown
+   http://localhost:8080
+   ```
+
+### Contribuições são bem-vindas! Para contribuir:
+
+Faça um fork do repositório.
+
 Crie uma branch para sua feature:
-```markdown
-git checkout -b minha-feature
-```
+   ```markdown
+   git checkout -b minha-feature
+   ```
 Commit suas mudanças:
-```markdown
-git commit -m "Adicionei nova funcionalidade"
-```
+   ```markdown
+   git commit -m "Adicionei nova funcionalidade"
+   ```
 Envie a branch:
-```markdown
-git push origin minha-feature
-```
+   ```markdown
+   git push origin minha-feature
+   ```
 Abra um Pull Request.
 ### Licença
 Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
